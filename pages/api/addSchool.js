@@ -28,6 +28,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage }).single('image');
 
 export default function handler(req, res) {
+
+  // ✅ Allow preflight OPTIONS request (required on Vercel)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
